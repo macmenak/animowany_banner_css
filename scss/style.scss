@@ -1,0 +1,331 @@
+#main{
+  width: 614px;
+  height: 196px;
+  border: 1px solid black;
+  overflow: hidden;
+}
+
+#second {
+  margin-top: -193px;
+}
+
+.product{
+  width: 225px;
+  margin: 0 auto 11px auto;
+  height: 40px;
+  transform: translateY(-100vh);
+  .label{
+    float:left;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    line-height: 40px;
+    color: #333;
+    font-weight: 600;
+  }
+  .icon{
+    float: right;
+  }
+}
+
+.star {
+  & {
+    margin-top: 5px;
+    display: inline-block!important;
+    position: relative;
+    width: 0;
+    height: 0;
+    border-left: calc(26px/2) solid transparent;
+    border-right: calc(26px/2) solid transparent;
+    border-bottom: 26px solid #24AADF;
+    top: calc(26px/-6)
+  }
+  &:after {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: calc(26px/2) solid transparent;
+    border-right: calc(26px/2) solid transparent;
+    border-top: 26px solid #24AADF;
+    top: calc(26px/3);
+    left: calc(26px/-2);
+  }
+}
+
+.square{
+  width: 40px;
+  height: 40px;
+  background-color: #15aa9c;
+}
+
+.hexagon {
+  transform: rotate(90deg);
+  & {
+    display: inline-block!important;
+    position: relative;
+    width: calc(22px*1.5);
+    height: 22px;
+    background-color: #C2272D;
+  }
+
+  &:before {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: calc(22px/1.33) solid transparent;
+    border-right: calc(22px/1.33) solid transparent;
+    border-bottom: calc(22px/2) solid #C2272D;
+    top: calc(-0.5*22px);
+  }
+  &:after {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: calc(22px/1.33) solid transparent;
+    border-right: calc(22px/1.33) solid transparent;
+    border-top: calc(22px/2) solid #C2272D;
+    top: calc(1*22px);
+  }
+}
+
+.circle{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fabc1a;
+}
+
+@for $i from 1 through 4{
+  .product:nth-of-type(#{$i}){
+
+    @if $i % 2 == 0 {
+      animation: fromAbove 1s #{$i}s forwards,
+      expand 1s #{$i+4}s forwards,
+      exitRight 1s #{$i+4*3}s forwards;
+    } @else {
+      animation: fromAbove 1s #{$i}s forwards,
+      expand 1s #{$i+4}s forwards,
+      exitLeft 1s #{$i+4*3}s forwards;
+    }
+    .square{
+      animation: changeColorSquare 1s #{$i+4*2}s forwards,
+      exitRightIcon 1s #{$i+4*3}s linear infinite;
+    }
+    .circle{
+      animation: changeColorCircle 1s #{$i+4*2}s forwards;
+    }
+    .star{
+      animation: changeColorStar 1s #{$i+4*2}s forwards,
+                exitLeftIcon 1s #{$i+4*3}s linear infinite;
+      &:after{
+        animation: changeColorStarAfter 1s #{$i+4*2}s forwards;
+      }
+    }
+    .hexagon{
+      animation: changeColorHexagon 1s #{$i+4*2}s forwards,
+                exitLeftIcon 1s #{$i+4*3}s linear infinite;
+      &:before{
+        animation: changeColorHexagonBefore 1s #{$i+4*2}s forwards;
+      }
+      &:after{
+        animation: changeColorHexagonAfter 1s #{$i+4*2}s forwards;
+      }
+    }
+  }
+
+
+}
+
+$endOfFirstAnimations : 4 + 4 * 3;
+
+@keyframes fromAbove {
+  0%{
+    transform: translateY(-100vh);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
+
+@keyframes expand {
+  100%{
+    width: 385px;
+  }
+}
+
+
+@keyframes changeColorSquare {
+   100%{
+     background-color: #C2272D;
+   }
+ }
+
+@keyframes changeColorCircle {
+  100%{
+    background-color: #4697c2;
+  }
+}
+
+$newStarColor : #ffc540;
+
+@keyframes changeColorStar {
+  100%{
+    border-bottom-color: $newStarColor;
+  }
+}
+
+@keyframes changeColorStarAfter {
+  100%{
+    border-top-color: $newStarColor;
+  }
+}
+
+$newHexagonColor : green;
+
+@keyframes changeColorHexagon {
+  100%{
+    background-color: $newHexagonColor;
+  }
+}
+@keyframes changeColorHexagonBefore {
+  100%{
+    border-bottom-color: $newHexagonColor;
+  }
+}
+@keyframes changeColorHexagonAfter {
+  100%{
+    border-top-color: $newHexagonColor;
+  }
+}
+
+@keyframes exitLeft {
+   0%{
+     transform: translateX(0);
+   }
+   100%{
+     transform: translateX(-100vw);
+   }
+ }
+
+@keyframes exitLeftIcon {
+  0%{
+    transform: rotate(0);
+  }
+  100%{
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes exitRight {
+  0%{
+    transform: translateX(0);
+  }
+  100%{
+    transform: translateX(100vw);
+  }
+}
+
+
+@keyframes exitRightIcon {
+  0%{
+    transform: rotate(0);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+
+.chocolate,
+.danish,
+.sweet{
+  text-transform: uppercase;
+}
+
+.chocolate {
+  font-family: Arial;
+}
+
+.danish {
+  font-family: "Comic Sans MS";
+  font-weight: bold;
+}
+
+
+.chocolate,
+.danish {
+  width: 200px;
+  margin: 50px auto;
+  text-align: center;
+  font-size: 0;
+  line-height: 16px;
+  animation: enlargeText 1s #{$endOfFirstAnimations+1}s forwards,
+  rotateX 1s #{$endOfFirstAnimations+4}s,
+  narrowAndFade 1s #{$endOfFirstAnimations+5}s forwards;
+}
+
+.sweet {
+  font-family: Arial;
+  font-size: 14px;
+  color: #888;
+  border: 1px solid #888;
+  padding: 3px;
+  width: 91px;
+  margin-top: -206px;
+  animation: moveYtoMiddle 1s #{$endOfFirstAnimations+2}s forwards,
+  moveXtoCenter 1s #{$endOfFirstAnimations+3}s forwards,
+  rotateX 1s #{$endOfFirstAnimations+4}s,
+  narrowAndFade 1s #{$endOfFirstAnimations+5}s forwards;
+
+}
+
+
+@keyframes enlargeText {
+  0% {
+    font-size: 1px;
+  }
+  100% {
+    font-size: 16px;
+  }
+}
+
+@keyframes moveYtoMiddle {
+  0% {
+    margin-top: -206px;
+  }
+  100%{
+    margin-top: -102px;
+  }
+}
+
+@keyframes moveXtoCenter {
+
+  100%{
+    margin-left: 258px;
+  }
+}
+
+@keyframes rotateX {
+  0% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(-1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes narrowAndFade {
+  0% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100%{
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
